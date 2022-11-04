@@ -9,9 +9,11 @@ node {
             sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
         }
     }
-    docker.image('cdrx/pyinstaller-linux:python2').inside {
+    docker.image('python:3-alpine').inside {
         stage('Deploy') {
-            sh 'pyinstaller --onefile sources/add2vals.py'
+            sh 'pip install -r requirements.txt'
+            sh 'python -m flask --app sources/app.py run'
+            sleep 1m
         }
     }
 }
