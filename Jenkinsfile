@@ -15,8 +15,8 @@ node {
                 python -m venv .venv
                 . .venv/bin/activate
                 pip install -r requirements.txt
+                python -m flask --app sources/app.py run
             '''
-            sh 'python -m flask --app sources/app.py run'
             sleep 1m
         }
     }
