@@ -9,7 +9,7 @@ node {
             sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
         }
     }
-    docker.image('python:3-alpine').inside {
+    docker.image('python:3-alpine').inside('-p 5000:5000') {
         stage('Deploy') {
             sh '''
                 python -m venv .venv
