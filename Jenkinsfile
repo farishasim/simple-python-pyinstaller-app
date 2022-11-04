@@ -11,7 +11,7 @@ node {
     }
     docker.image('python:3-alpine').inside {
         stage('Deploy') {
-            sh 'sudo pip install -r requirements.txt'
+            sh 'pip install -r requirements.txt'
             sh 'python -m flask --app sources/app.py run'
             sleep 1m
         }
