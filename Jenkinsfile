@@ -1,7 +1,7 @@
 node {
     docker.image('python:2-alpine').inside {
         stage('Build') {
-            sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+            sh 'python -m py_compile sources/add2vals.py sources/calc.py sources/app.py'
         }
     }
     docker.image('qnib/pytest').inside {
