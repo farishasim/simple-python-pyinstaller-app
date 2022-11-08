@@ -30,7 +30,7 @@ pipeline {
             agent {
                 docker {
                     image 'python:3-alpine'
-                    args '-p 5000:5000'
+                    args '-p 3000:3000'
                 }
             }
             steps {
@@ -38,7 +38,7 @@ pipeline {
                     python -m venv .venv
                     . .venv/bin/activate
                     pip install -r requirements.txt
-                    gunicorn --chdir ./sources --pid gunicorn.pid --daemon --bind host.docker.internal:5000 app:app
+                    gunicorn --chdir ./sources --pid gunicorn.pid --daemon --bind localhost:3000 app:app
                 '''
                 input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)' 
             }
