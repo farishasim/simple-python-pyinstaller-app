@@ -7,6 +7,7 @@ authors = ["Faris Hasim <farishasimsyauqi@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 Flask = "^2.2.2"
+gunicorn = "^20.1.0"
 
 [tool.poetry.dev-dependencies]
 

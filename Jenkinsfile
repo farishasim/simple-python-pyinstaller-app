@@ -38,7 +38,7 @@ pipeline {
                     python -m venv .venv
                     . .venv/bin/activate
                     pip install -r requirements.txt
-                    python -m flask --app sources/app.py run
+                    gunicorn --chdir ./sources --bind localhost:5000 app:app
                 '''
                 input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)' 
             }
