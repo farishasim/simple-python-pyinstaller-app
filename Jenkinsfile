@@ -26,6 +26,11 @@ pipeline {
                 }
             }
         }
+        stage('Manual Approval') {
+            steps {
+                input message: 'Lanjutkan ke tahap Deploy?'
+            }
+        }
         stage('Deliver') {
             agent {
                 docker {
@@ -40,13 +45,8 @@ pipeline {
                     pip install -r requirements.txt
                     gunicorn --chdir ./sources --pid gunicorn.pid --daemon --bind 0.0.0.0:3000 app:app
                 '''
-                input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)' 
+                sleep 60
                 sh 'pkill -f gunicorn'
-            }
-            post {
-                success {
-                    archiveArtifacts 'dist/add2vals'
-                }
             }
         }
     }
