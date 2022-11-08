@@ -1,23 +1,51 @@
-node {
-    docker.image('python:2-alpine').inside {
+pipeline {
+    agent none
+    stages {
         stage('Build') {
-            sh 'python -m py_compile sources/add2vals.py sources/calc.py sources/app.py'
+            agent {
+                docker {
+                    image 'python:2-alpine'
+                }
+            }
+            steps {
+                sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+            }
         }
-    }
-    docker.image('qnib/pytest').inside {
         stage('Test') {
-            sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+            agent {
+                docker {
+                    image 'qnib/pytest'
+                }
+            }
+            steps {
+                sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+            }
+            post {
+                always {
+                    junit 'test-reports/results.xml'
+                }
+            }
         }
-    }
-    docker.image('python:3-alpine').inside('-p 5000:5000') {
-        stage('Deploy') {
-            sh '''
-                python -m venv .venv
-                . .venv/bin/activate
-                pip install -r requirements.txt
-                python -m flask --app sources/app.py run
-            '''
-            sleep 1m
+        stage('Deliver') {
+            agent {
+                docker {
+                    image 'python:3-alpine'
+                    args '-p 5000:5000'
+                }
+            }
+            steps {
+                sh '''
+                    python -m venv .venv
+                    . .venv/bin/activate
+                    pip install -r requirements.txt
+                    python -m flask --app sources/app.py run
+                '''
+            }
+            post {
+                success {
+                    archiveArtifacts 'dist/add2vals'
+                }
+            }
         }
     }
 }
