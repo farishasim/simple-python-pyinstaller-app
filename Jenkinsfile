@@ -40,6 +40,7 @@ pipeline {
                     pip install -r requirements.txt
                     python -m flask --app sources/app.py run
                 '''
+                input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)' 
             }
             post {
                 success {
