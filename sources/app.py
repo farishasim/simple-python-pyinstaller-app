@@ -14,7 +14,7 @@ def main():
 def calculate():
     a = request.args.get('a')
     b = request.args.get('b')
-    return add2(a, b)
+    return f"{add2(a, b)}"
 
 
 if __name__ == "__main__":
