@@ -31,7 +31,7 @@ pipeline {
                 input message: 'Lanjutkan ke tahap Deploy?'
             }
         }
-        stage('Deliver') {
+        stage('Deploy') {
             agent {
                 docker {
                     image 'python:3-alpine'
